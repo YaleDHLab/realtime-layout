@@ -1,0 +1,25 @@
+body, html {
+  height: 100%;
+  width: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+body {
+  font-family: Open Sans;
+  background-color: #1c2329;
+}
+
+#gl {
+  height: 100%;
+}
+
+#stats {
+  width: 80px;
+  height: 48px;
+}
