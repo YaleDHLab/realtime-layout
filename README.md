@@ -1,14 +1,12 @@
-# Three Boilerplate
+# Realtime Layout
 
-Minimal boilerplate for three.js apps.
+Create TSNE or UMAP layouts with JavaScript in realtime
 
 # Usage
 
 To use this boilerplate, you can run in a terminal:
 
 ```bash
-git clone https://github.com/yaledhlab/three-boilerplate
-cd three-boilerplate
-npm install
-npm run start
+git clone https://github.com/yaledhlab/realtime-layout
+yarn install && yarn start
 ```
