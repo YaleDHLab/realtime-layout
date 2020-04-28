@@ -13,7 +13,7 @@ export class LayoutWorker {
   postMessage(data) {
     this.worker.postMessage({
       data: data,
-      path: window.location.href + cpuTsnePath,
+      path: window.location.href.replace('index.html', '') + cpuTsnePath,
     });
   }
 
