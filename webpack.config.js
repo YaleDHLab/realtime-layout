@@ -35,7 +35,7 @@ const common = {
   output: {
     path: paths.build,
     filename: 'bundle.[hash].js',
-    publicPath: '/'
+    publicPath: ''
   },
   performance: {
     hints: false,
