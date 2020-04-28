@@ -74,6 +74,9 @@ app.add('lights', new Lights());
 **/
 
 const onData = data => {
+  if (!data ||
+      !data.length ||
+      data.length != app.points.geometry.attributes.translation.array.length) return;
   app.points.geometry.attributes.translation.array = data;
   app.points.geometry.attributes.translation.needsUpdate = true;
 }
