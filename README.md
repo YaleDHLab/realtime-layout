@@ -8,5 +8,11 @@ To use this boilerplate, you can run in a terminal:
 
 ```bash
 git clone https://github.com/yaledhlab/realtime-layout
-yarn install && yarn start
+yarn install
+```
+
+Then one can start the server:
+
+```bash
+yarn start
 ```
