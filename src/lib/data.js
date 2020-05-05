@@ -1,5 +1,21 @@
-const n = 1000;
-const d = [];
-export const translations = new Float32Array(n * 3);
-for (let i=0; i<n; i++) d[i] = [Math.random(), Math.random(), Math.random()];
-export const data = d;
+export const getData = state => {
+  const fake = true;
+  let d = [];
+  let t = [];
+  let c = [];
+
+  for (let i=0; i<state.n; i++) {
+    var color = [Math.random(), Math.random(), Math.random()];
+    c = c.concat(color);
+    d[i] = color;
+  }
+  c = new Float32Array(c);
+  t = new Float32Array(state.n * 3);
+
+  return {
+    data: d,
+    translations: t,
+    color: c,
+    n: state.n,
+  }
+}

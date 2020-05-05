@@ -1,20 +1,10 @@
 import 'babel-polyfill'
 import './assets/styles/style'
 import * as THREE from 'three';
-import Lights from './lights/Lights';
-import Points from './meshes/Points';
 import * as Stats from 'stats-js';
 import * as TrackballControls from 'three-trackballcontrols';
-import { LayoutWorker } from './lib/worker';
-import { data } from './lib/data';
 
-const development = window.location.href.includes('localhost');
-if (!development) {
-  console.warn = () => {}
-  console.log = () => {}
-}
-
-class App {
+export class App {
   constructor(selector) {
     this.selector = selector;
     this.container = null;
@@ -27,7 +17,7 @@ class App {
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.w, this.h);
     this.container.appendChild(this.renderer.domElement);
-    this.camera.position.z = 5;
+    this.camera.position.z = 10;
     this.stats = new Stats();
     this.stats.dom.id = 'stats';
     this.container.append(this.stats.dom);
@@ -35,7 +25,6 @@ class App {
     this.controls.target = new THREE.Vector3(0,0,0);
     window.addEventListener('resize', this.onResize.bind(this));
     this.render = this.render.bind(this);
-    this.render.bind(this);
   }
 
   updateContainer() {
@@ -63,29 +52,4 @@ class App {
     this.controls.update();
     this.stats.end();
   }
-}
-
-export const app = new App('#gl');
-app.add('points', new Points());
-app.add('lights', new Lights());
-
-/**
-* Start the web worker
-**/
-
-const onData = data => {
-  if (!data ||
-      !data.length ||
-      data.length != app.points.geometry.attributes.translation.array.length) return;
-  app.points.geometry.attributes.translation.array = data;
-  app.points.geometry.attributes.translation.needsUpdate = true;
-}
-
-const worker = new LayoutWorker(onData);
-worker.postMessage(data);
-
-if (development) {
-  window.THREE = THREE;
-  window.scene = app.scene;
-  window.app = app;
 }

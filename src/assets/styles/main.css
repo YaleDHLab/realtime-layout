@@ -8,6 +8,7 @@ body, html {
   padding: 0;
   box-sizing: border-box;
   overflow: hidden;
+  line-height: 1em;
 }
 
 body {
@@ -22,4 +23,8 @@ body {
 #stats {
   width: 80px;
   height: 48px;
+}
+
+body .dg.ac {
+  height: auto;
 }

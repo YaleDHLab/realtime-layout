@@ -9,7 +9,8 @@ const path = require('path');
 
 const paths = {
   src: path.resolve(__dirname, 'src'),
-  build: path.resolve(__dirname, 'build')
+  build: path.resolve(__dirname, 'build'),
+  modules: path.resolve(__dirname, 'node_modules'),
 }
 
 const htmlConfig = {
@@ -25,23 +26,37 @@ const pathsToCopy = [
     from: path.join(paths.src, 'karpathy.js'),
     to: paths.build,
   },
+  {
+    context: path.join(paths.src),
+    from: path.join(paths.modules, 'umap-js/lib/umap-js.min.js'),
+    to: paths.build,
+  }
 ]
 
 const common = {
   entry: path.join(paths.src, 'index.js'),
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx']
+    extensions: ['.js', '.ts'],
   },
   output: {
     path: paths.build,
     filename: 'bundle.[hash].js',
-    publicPath: ''
+    publicPath: '',
   },
   performance: {
     hints: false,
   },
   module: {
     rules: [
+      {
+        test: /\.(ts)$/,
+        use: {
+          loader: 'awesome-typescript-loader',
+          options: {
+            useCache: true,
+          }
+        }
+      },
       {
         test: /\.(js|jsx)$/,
         exclude: /(node_modules)/,
@@ -65,7 +80,7 @@ const common = {
         ],
       },
       {
-        test: /\.(png|jpg|gif)$/,
+        test: /\.(png|jpg|gif|npy)$/,
         exclude: /(node_modules)/,
         use: [
           {
