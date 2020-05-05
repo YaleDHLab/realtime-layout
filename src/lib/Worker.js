@@ -1,4 +1,4 @@
-const tsnePath = require('file-loader!./karpathy');
+const tsnePath = require('file-loader!./karpathy.js');
 const umapPath = require('file-loader!../../node_modules/umap-js/lib/umap-js.min.js');
 
 export class LayoutWorker {
@@ -16,7 +16,7 @@ export class LayoutWorker {
   }
 
   getString() {
-    if (this.type == 'tnse') return `
+    if (this.type == 'tsne') return `
       self.onmessage = function(event) {
         // load karpathy tsne (karpathy exports to window scope)
         window = this;
@@ -40,8 +40,8 @@ export class LayoutWorker {
           postMessage(result = it.next());
         } while(!result.done);
       };
-      `
-    if (this.type == 'umap') return `
+    `;
+    else if (this.type == 'umap') return `
       self.onmessage = function(event) {
         // load umap-js
         window = this;

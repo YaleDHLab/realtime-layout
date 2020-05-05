@@ -26,6 +26,11 @@ const pathsToCopy = [
     from: path.join(paths.src, 'karpathy.js'),
     to: paths.build,
   },
+  {
+    context: path.join(paths.src),
+    from: path.join(paths.modules, 'umap-js/lib/umap-js.min.js'),
+    to: paths.build,
+  }
 ]
 
 const common = {

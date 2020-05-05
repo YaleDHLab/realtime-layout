@@ -28,7 +28,7 @@ app.render();
 **/
 
 const state = {
-  method: 'umap',
+  method: 'tsne-cpu',
   n: 1000,
 }
 
@@ -65,6 +65,7 @@ if (state.method == 'tsne-cpu') {
     if (data) updatePositionBuffer(new Float32Array(flatten(data.value)));
   }
   const worker = new LayoutWorker('tsne', onData);
+  window.oworker = worker;
   worker.postMessage(data);
 }
 

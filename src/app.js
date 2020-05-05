@@ -17,7 +17,7 @@ export class App {
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.w, this.h);
     this.container.appendChild(this.renderer.domElement);
-    this.camera.position.z = 5;
+    this.camera.position.z = 10;
     this.stats = new Stats();
     this.stats.dom.id = 'stats';
     this.container.append(this.stats.dom);
