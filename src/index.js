@@ -3,6 +3,7 @@ import './assets/styles/style';
 import * as THREE from 'three';
 import * as tf from '@tensorflow/tfjs-core';
 import * as tsne from '@tensorflow/tfjs-tsne';
+import { UMAP } from 'umap-js';
 import { App } from './app';
 import Lights from './lights/Lights';
 import Points from './meshes/Points';
@@ -27,8 +28,7 @@ app.render();
 **/
 
 const state = {
-  method: 'gpu-tsne',
-  perplexity: 16,
+  method: 'umap',
   n: 1000,
 }
 
@@ -40,22 +40,31 @@ const { data, translations, color, n } = getData(state);
 app.add('points', new Points(translations, color));
 
 /**
+* Helpers
+**/
+
+const updatePositionBuffer = l => {
+  app.points.geometry.attributes.translation.array = l;
+  app.points.geometry.attributes.translation.needsUpdate = true;
+}
+
+const flatten = l => {
+  let arr = [], n = 0;
+  for (let i=0; i<l.length; i++) {
+    for (let j=0; j<l[i].length; j++) arr[n++] = l[i][j];
+  }
+  return arr;
+}
+
+/**
 * CPU TSNE
 **/
 
-if (state.method == 'cpu-tsne') {
+if (state.method == 'tsne-cpu') {
   const onData = data => {
-    if (!data) return;
-    let d = new Float32Array(n*2);
-    for (let i=0; i<data.value.length; i++) {
-      for (let j=0; j<data.value[i].length; j++) {
-        d[2*i+j] = data.value[i][j];
-      }
-    }
-    app.points.geometry.attributes.translation.array = d;
-    app.points.geometry.attributes.translation.needsUpdate = true;
+    if (data) updatePositionBuffer(new Float32Array(flatten(data.value)));
   }
-  const worker = new LayoutWorker(onData);
+  const worker = new LayoutWorker('tsne', onData);
   worker.postMessage(data);
 }
 
@@ -63,24 +72,28 @@ if (state.method == 'cpu-tsne') {
 * GPGPU TSNE
 **/
 
-if (state.method == 'gpu-tsne') {
+if (state.method == 'tsne-gpu') {
   async function iterativeTsne() {
-    const tensor = tf.tensor(data);
-    const model = tsne.tsne(tensor, {
-      perplexity: 18,
-      exaggeration: 2,
-      knnMode: 'bruteForce',
-    });
+    const model = tsne.tsne(tf.tensor(data));
     await model.iterateKnn(model.knnIterations());
-    const tsneIterations = 1000;
-    for (let i=0; i<tsneIterations; ++i) {
-      await model.iterate(10);
-      const positions = await model.coordinates().data();
-      app.points.geometry.attributes.translation.array = new Float32Array(positions);
-      app.points.geometry.attributes.translation.needsUpdate = true;
+    for (let i=0; i<1000; ++i) {
+      await model.iterate(1);
+      updatePositionBuffer(new Float32Array(await model.coordinates().data()));
     }
   }
   iterativeTsne();
+}
+
+/**
+* UMAP
+**/
+
+if (state.method == 'umap') {
+  const onData = data => {
+    if (data) updatePositionBuffer(new Float32Array(flatten(data.value)));
+  }
+  const worker = new LayoutWorker('umap', onData);
+  worker.postMessage(data);
 }
 
 if (development) {

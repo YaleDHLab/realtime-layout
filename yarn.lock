@@ -2386,11 +2386,6 @@ d@1, d@^1.0.1:
     es5-ext "^0.10.50"
     type "^1.0.1"
 
-dat.gui@^0.7.7:
-  version "0.7.7"
-  resolved "https://registry.yarnpkg.com/dat.gui/-/dat.gui-0.7.7.tgz#7f96dbd21621a76385203659aebfa264ee6ae89b"
-  integrity sha512-sRl/28gF/XRC5ywC9I4zriATTsQcpSsRG7seXCPnTkK8/EQMIbCu5NPMpICLGxX9ZEUvcXR3ArLYCtgreFoMDw==
-
 deasync@^0.1.4:
   version "0.1.20"
   resolved "https://registry.yarnpkg.com/deasync/-/deasync-0.1.20.tgz#546fd2660688a1eeed55edce2308c5cf7104f9da"
