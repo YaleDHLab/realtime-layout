@@ -28,7 +28,7 @@ app.render();
 **/
 
 const state = {
-  method: 'tsne-cpu',
+  method: 'tsne',
   n: 1000,
 }
 
