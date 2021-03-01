@@ -21,7 +21,7 @@
     "babel-polyfill": "^6.26.0",
     "read-npy-file": "^1.0.4",
     "stats-js": "^1.0.1",
-    "three": "0.115.0",
+    "three": "0.125.0",
     "three-fbx-loader": "^1.0.3",
     "three-trackballcontrols": "^0.0.8",
     "tween.js": "^16.6.0",
